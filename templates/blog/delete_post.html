@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Delete post {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"> About </a>
+      </li>
+    </ul>
+    <span class="navbar-text text-danger ml-4 mr-4">
+       Delete post
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+{% block content %}
+
+<h1 class="display-2 text-danger mt-4 mb-4 mr-4"> Delete Post:
+<button type="button" class="btn btn-danger">
+       <a class="text-white" href="{% url 'blog:delete_post_done' user_object.id exact_post.id %}"> Yes </a>
+</button>
+<button type="button" class="btn btn-success">
+       <a class="text-white" href="{% url 'blog:my_profile' user_object.id %}"> No, take me back </a>
+</button>
+</h1>
+<h3> {{ exact_title }} </h3>
+<p> {{ exact_date }} </p>
+<h6 class="bg-light" > {{ exact_post.post }} </h6>
+
+{% endblock content %}
+
+

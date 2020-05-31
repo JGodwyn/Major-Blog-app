@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Edit post {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
+      </li>
+      <li class="nav-item">
+
+      </li>
+    </ul>
+    <span class="navbar-text text-white ml-4 mr-4">
+       Edit post
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+{% block content %}
+<h1 class="display-4 mt-4 mb-4" style="text-align:center;"> Edit Post </h1>
+<form class="was-validated mt-4" action="" method="POST">
+  {% csrf_token %}
+  <div class="mb-4">
+      <label for="validationTextarea"><b>Title of your post</b></label>
+    <textarea cols="50" rows="2" class="form-control is-invalid" id="validationTextarea" placeholder="This should be shorter than your post" name="title" required >{{ exact_title }}</textarea>
+    <div class="invalid-feedback">
+    </div>
+  </div>
+
+    <div class="mb-3 mt-4">
+        <label for="validationTextarea"><b>Your post</b></label>
+        <textarea rows="14" class="form-control is-invalid" id="validationTextare" placeholder="Express yourself" name="post" required >{{ exact_post }}</textarea>
+        <div class="invalid-feedback">
+        </div>
+    </div>
+
+<button class="btn btn-success mb-4 mt-4" type="submit" name="action"> Done </button>
+</form>
+
+{% endblock %}

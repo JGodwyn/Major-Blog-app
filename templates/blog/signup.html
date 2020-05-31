@@ -15,7 +15,7 @@
         <a class="nav-link mr-4 ml-4" href="#">Sign up <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+        <a class="nav-link" href="{% url 'blog:about' %}">About</a>
       </li>
     </ul>
   </div>
@@ -24,7 +24,7 @@
 {% block content %}
 <div class = "card mt-4 bg-light" style="text-align:center; width:auto;">
     <h1 class="mt-4 display-2"><b> Sign up </b></h1>
-    <h6> Get some ideas </h6>
+    <h6 class="text-primary"> Get some ideas </h6>
 
     <div class="row align-items-center justify-content-center mt-4">
             <form action="{% url 'blog:signed_up' %}" method="POST">

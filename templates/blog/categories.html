@@ -14,26 +14,27 @@
         <a class="nav-link mr-4 ml-4" href="#">Categories<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+
       </li>
     </ul>
   </div>
 {% endblock navbar %}
 {% block content %}
+<br>
 <div class="mt-4" style="text-align: center">
-    <h1> {{ user_object.username }} </h1>
-    <h5> Select the categories you are interested in </h5>
+    <h1 class="display-4"> {{ user_object.username }} </h1>
+    <h5 class="lead"> Select the categories you are interested in </h5>
 </div>
 
         <div class="row mt-4">
                     <div class="col">
                         <ul class="list-group">
                             {% for line in categories %}
-                            <li class="list-group-item list-group-item-action mt-4"> <h2><b>  {{ line.categories }} </b></h2>
+                            <li class="list-group-item list-group-item-action mt-4"> <h2><b>  {{ line }} </b></h2>
                                 <div class = 'float-right'>
                                      <form class= "form-inline" action="{% url 'blog:categories_verify' user_object.id %}" method="POST">
                                      {% csrf_token %}
-                                      <input type="checkbox" name="category" value="{{ line.categories }}">
+                                      <input type="checkbox" name="category" value="{{ line }}">
                                 </div>
                             </li>
                             {% endfor %}
@@ -47,9 +48,7 @@
                         {% endif %}
                     </div>
         </div>
-
-
-
+<br><br>
 
 {% endblock content %}
 <!-- <div class="row">

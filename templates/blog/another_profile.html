@@ -14,11 +14,11 @@
         <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}'s profile <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+        <a class="nav-link mr-4" href="{% url 'blog:dashboard' main_user_object.id %} "> Home </a>
       </li>
     </ul>
     <span class="navbar-text ml-4 mr-4">
-       Your profile
+       Profile
     </span>
     <span class="navbar-text mr-4">
       <button type="button" class="btn btn-danger ml-4">
@@ -32,6 +32,9 @@
 {% block content %}
 
 <div class="jumbotron mt-4 mb-4 bg-white text-dark">
+    <div class="float-right">
+        <img class="" src="/static/media/{{user_object.image}}" width="300px" height="320px">
+    </div>
   <h1 class="display-2"> {{ user_object.username }} </h1>
      <p class="lead"><b>{{ user_object.categories }}</b></p>
   <hr class="my-4 bg-primary">
@@ -48,12 +51,17 @@
             <li class="list-group-item list-group-item-action mt-4"> <p><b>  {{ post.title }}  </b></p>
                 {{ post.date_created }}
                  <p>
-                     <button type="button" class="btn btn-primary mt-2">
-                   <a class="text-white" href="{% url 'blog:view_post' post.post_link.id post.id %}"> View </a>
+                     <button type="button" class="btn btn-primary mt-3">
+                        <a class="text-white" href="{% url 'blog:view_post' main_user_object.id post.post_link.id post.id %}"> View </a>
                      </button>
-                 </p>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                             <input type="hidden" name = "post_user" value="{{ post.post_link.id }}" >
+                             <button class=" btn btn-light float-right" type="submit" name="post_id" value="{{ post.id }}"> <img class="mb-2" src="{% static 'img/like-1439749-1214323.png' %}">
+                                {{ post.likes }}</button>
+                        </form>
+                  </p>
             </li>
-
             {% endfor %}
         </ul>
     </div>

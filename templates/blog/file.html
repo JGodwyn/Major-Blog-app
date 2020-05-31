@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} {{ file }} {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href=""><span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mr-4" href=" "> Home </a>
+      </li>
+      <li class="nav-item">
+
+      </li>
+    </ul>
+    <span class="navbar-text ml-4 mr-4">
+       Profile
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger ml-4">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+
+{% block content %}
+<h1 class="display-4 mt-4 mb-4"> {{ file }} </h1>
+<img src="{{ file }}">
+
+{% endblock %}

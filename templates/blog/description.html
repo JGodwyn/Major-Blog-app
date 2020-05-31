@@ -14,7 +14,7 @@
         <a class="nav-link mr-4 ml-4" href="#">Description<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+
       </li>
     </ul>
   </div>
@@ -22,8 +22,8 @@
 
 {% block content %}
 
-<div class="mt-4" style="text-align:center">
-    <h1> Let's get to know you </h1>
+<div class="mt-4" style="text-align:center;" >
+    <h1 class="display-3"> Let's get to know you </h1>
     <h5> {{ user_object.username }} </h5>
 
 </div>
@@ -31,8 +31,7 @@
 <form class="was-validated mt-4" action="{% url 'blog:description_done' user_object.id %}" method="POST">
   {% csrf_token %}
   <div class="mb-3">
-    <label for="validationTextarea">How would you describe yourself?</label>
-    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="" name="description" required ></textarea>
+    <textarea rows="12" class="form-control is-invalid" id="validationTextarea" placeholder="" name="description" required ></textarea>
     <div class="invalid-feedback">
      Let's know you.
     </div>

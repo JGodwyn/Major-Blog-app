@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} About {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link ml-4 mr-4" href="/"> Home </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link mr-4" href="">About<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+{% endblock navbar %}
+
+{% block content %}
+<br><br>
+
+<h1 class="display-1"> A Blog app </h1>
+<hr class="my-4 bg-dark mt-4">
+<p class="text-primary"><i> Saturday, May 9th, 2020 </i></p>
+<div class="float-right">
+  <img src="{% static 'img/miner.jpg' %}">
+  <p class="display-4 mt-4" style="text-align:center;"> John Godwyn </p>
+</div>
+
+<div>
+  <p> I am a Python developer. </p>
+  <p> I designed this mini-blog app as a project. I took the design upon myself to test the level of my skills in the Python's framework: Django.</p>
+  <p> I used Bootstrap as the frontend language, my focus was on the backend. </p>
+  <p> I know it is still a work in progress but i wanted to throw my perfectionist side away this time and host it in 'beta' mode</p>
+  <p> The app is hosted on <b>Heroku</b> </p>
+  <p class="mb-4"><b> <i class="text-danger">I used:</i> Python, Django, Bootstrap</b></p>
+  <p class="mt-4"><i> Your comments on this blog would be hugely appreciated. </i></p>
+
+  <form class="was-validated mt-4" action="{% url 'blog:comment_about' %}" method="POST">
+  {% csrf_token %}
+  <div class="mb-3 float-left">
+    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="" name="text" required autofocus></textarea>
+    {% if text %}
+    <div class="invalid-feedback">
+        <p> {{ text }} </p>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <button class="btn btn-primary mb-4 mt-3 ml-2" type="submit" name="description"> Send </button>
+  </form>
+
+
+</div>
+
+{% endblock content %}
+
+

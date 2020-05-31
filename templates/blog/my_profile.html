@@ -17,11 +17,11 @@
         <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+
       </li>
     </ul>
     <span class="navbar-text ml-4 mr-4">
-       Your profile
+       Profile
     </span>
     <span class="navbar-text mr-4">
       <button type="button" class="btn btn-danger ml-4">
@@ -34,17 +34,27 @@
 
 {% block content %}
 
-<div class="jumbotron mt-4 mb-4 bg-dark text-white lead">
-  <h1 class="display-2"> {{ user_object.username }} </h1>
-     <p class="lead"><b>{{ user_object.categories }}</b></p>
-  <hr class="my-4 bg-light">
-  <p>{{ user_object.description }}</p>
+<div class="jumbotron mt-4 mb-4 bg-gray text-white lead">
+    <div class="float-right mb-4">
+        <img src="/media/{{ user_object.image }}" width="300px" height="320px" >
+    </div>
+  <h1 class="display-2 text-dark outline"> {{ user_object.username }} </h1>
+     <p class="lead text-dark"><b>{{ user_object.categories }}</b></p>
+  <hr class="mt-4  mb-4 ">
+  <p class="mb-4 text-dark">{{ user_object.description }}</p><br>
+    <form class="mt-4 mb-4 form-control bg-light" action="#" method="POST" enctype="multipart/form-data" style="width:20em;">
+      {% csrf_token %}
+      <input class="mb-3" type="file" name="document" >
+      <button class="btn btn-primary " type="submit" > Save image </button>
+    </form>
 </div>
+<p class="float-right"><a href="{% url 'blog:edit_profile' user_object.id %}"> Edit your profile  <img class="ml-2 mb-1" src="{% static 'img/ic-contact-edit-contact.png' %}"> </a></p>
+<br><br>
 
 
+{% if posts %}
 <p class="mt-4 display-4" style="text-align:center;"> Posts ({{ length }})</p>
 <hr style="width: 35rem;" class="my-4 bg-dark mb-4 ">
-
 
 <div class="row">
     <div class="col">
@@ -54,12 +64,17 @@
                 {{ post.date_created }}
                  <p>
                      <button type="button" class="btn btn-primary mt-2">
-                   <a class="text-white" href="{% url 'blog:view_post' post.post_link.id post.id %}"> View </a>
+                   <a class="text-white" href="{% url 'blog:view_post' user_object.id post.post_link.id post.id %}"> View </a>
                      </button>
-
+                     <button type="button" class="btn btn-success mt-2 ml-2">
+                       <a class="text-white" href="{% url 'blog:edit_post' post.post_link.id post.id %}"> Edit </a>
+                    </button>
                     <button type="button" class="btn btn-danger mt-2 ml-2">
                        <a class="text-white" href="{% url 'blog:delete_post_page' post.post_link.id post.id %}"> Delete </a>
                     </button>
+                         <button class="btn btn-light ml-2 mr-2 float-right" type="button" > <img class="mb-2 mt-2" src="{% static 'img/like-1439749-1214323.png' %}">
+                         {{ post.likes }}</button>
+
                  </p>
             </li>
 
@@ -67,5 +82,17 @@
         </ul>
     </div>
 </div>
+
+{% else %}
+<br>
+<div class="row align-items-center justify-content-center mt-4">
+    <img src="{% static 'img/ic-actions-closed-view@4x.png' %}">
+</div>
+ <h1 class="display-4" style="text-align:center;"> You've got nothing here </h1>
+<div class="row align-items-center justify-content-center mt-4">
+    <button class="btn btn-primary" style=""> <a class="text-white" href="{% url 'blog:make_post' user_object.id %}">Make a post</a> </button>
+</div>
+{% endif %}
+
 
 {% endblock content %}

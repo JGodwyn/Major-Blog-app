@@ -11,17 +11,14 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}<span class="sr-only">(current)</span></a>
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}'s post <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"> About </a>
+            <a class="nav-link mr-4" href="{% url 'blog:dashboard' main_user_object.id %} "> Home </a>
       </li>
     </ul>
     <span class="navbar-text ml-4 mr-4">
-       Your post
+       Post
     </span>
     <span class="navbar-text mr-4">
       <button type="button" class="btn btn-danger">
@@ -36,10 +33,46 @@
 
 <div class="jumbotron mt-4 mb-4 bg-light text-dark">
   <h1 class="display-3"> {{ exact_title }} </h1>
+  <div class="float-right">
+     <img class="mb-2 mt-2" src="{% static 'img/like-1439749-1214323.png' %}">
+                             {{ exact_likes }}<br>
+  </div>
      <p class="lead"><b> By: {{ user_object.username }}</b></p>
     <p class="text-primary"> {{ exact_date }}</p>
   <hr class="bg-light">
 </div>
 <h6 class="bg-white text-dark" style="width: auto; text-align: center">  {{ exact_post }} </h6>
+<br><br><br><br>
+
+ <form action="" class="mb-4" method="POST" style="width: 18em; ">
+      {% csrf_token %}
+        <div class="form-inline float-left" >
+          <input type="text" class="form-control"  aria-describedby="emailHelp"  name="comment" placeholder="say something" required>
+            <button class="ml-2 btn btn-outline-light float-right" type="submit"> <img src="{% static 'img/ic-actions-go-out.png' %}"> </button>
+        </div>
+  </form>
+<br><br>
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if present %}  <!-- check the views file on how i got this logic, this appends on removes the delete button-->
+        <p class="mb-3 text-dark"> <b>comments ({{ comment_list_length }}):</b> <button type="submit" class="btn btn-outline-dark ml-4"> Delete your comments </button> <br> </p>
+    {% else %}
+         <p class="mb-3 text-dark"> <b>comments ({{ comment_list_length }}):</b><br><br>
+     {% endif %}
+    {% for comment in comment_list %}
+    <input type="hidden" name="del_comment" value="{{comment.id}}">
+        {% if comment.commenter == main_user_object.username %}  <!-- if it is my post -->
+            {{ comment.comments }}   ---  <b class="text-primary">{{ comment.commenter }}</b> <br>
+        {% else %}
+            {{ comment.comments }}   ---  <b class="text-primary">{{ comment.commenter }}</b> <br>
+        {% endif %}
+    {% endfor %}
+</form>
+<br><hr>
+<p> <b>Liked by: </b><br>
+    {% for liker in all_likers %}
+        {{ liker }},
+    {% endfor %}
+</p>
 
 {% endblock content %}

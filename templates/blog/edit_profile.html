@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Edit profile {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
+      </li>
+      <li class="nav-item">
+
+      </li>
+    </ul>
+    <span class="navbar-text ml-4 mr-4">
+       Edit profile
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger ml-4">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+
+{% block content %}
+
+<h1 class="display-4 mt-4 mb-4"> Edit Profile </h1>
+<br>
+<form class="mt-4 mb-4" method="POST">
+    {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="text"><b> Name </b></label>
+      <input type="text" class="form-control " id="text" name="username" value="{{ user_object.username }}" required>
+        {% if name_exists %}
+            <i class="text-danger"> That name already exists </i>
+        {% else %}
+        {% endif %}
+    </div>
+    <div class="form-group col-md-6 mb-4">
+      <label for="inputPassword4"><b> Password </b></label>
+      <input type="password" class="form-control" id="inputPassword4" name="password" value="{{ user_object.password }} " required>
+    </div>
+  </div>
+  <div class="form-group mb-4">
+      <label for="validationTextarea"> <b> Description </b></label>
+    <textarea rows="12" class="form-control" id="validationTextarea" placeholder="" name="description"  required > {{ user_object.description }} </textarea>
+  </div>
+    <hr>
+  <div class="form-row">
+      <p class="mt-4 ml-4"><b> Choose categories </b></p>
+    <div class="form-group col-md-12 mb-4">
+        {% for line in all_categories %}
+            <input class="ml-3 mr-1" type="checkbox" name="category" value="{{ line }}" > {{ line }}
+        {% endfor %}
+        {% if not category_chosen %}
+          <p class="text-danger ml-3 mt-2 "> <i> Select a choice here </i></p>
+        {% else %}
+        {% endif %}
+      <!--
+      <label for="categories">Categories</label>
+      <select id="categories" class="form-control">
+        <option selected>Choose...</option>
+          {% for category in all_categories %}
+            <option>{{ category }}</option>
+          {% endfor %}
+      </select>
+      -->
+    </div>
+  </div>
+    <hr>
+  <button type="submit" class="btn btn-primary">Done</button>
+</form>
+<br>
+
+
+<!--<form>
+  <div class="form-row align-items-center">
+    <div class="col-auto my-1">
+      <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+        <option selected>Choose...</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+    <div class="col-auto my-1">
+      <div class="custom-control custom-checkbox mr-sm-2">
+        <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+        <label class="custom-control-label" for="customControlAutosizing">Remember my preference</label>
+      </div>
+    </div>
+    <div class="col-auto my-1">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+ -->
+
+<!--
+<form>
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="validationServer01">First name</label>
+      <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="validationServer02">Last name</label>
+      <input type="text" class="form-control is-valid" id="validationServer02" value="Otto" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="validationServerUsername">Username</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroupPrepend3">@</span>
+        </div>
+        <input type="text" class="form-control is-invalid" id="validationServerUsername" aria-describedby="inputGroupPrepend3" required>
+        <div class="invalid-feedback">
+          Please choose a username.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="validationServer03">City</label>
+      <input type="text" class="form-control is-invalid" id="validationServer03" required>
+      <div class="invalid-feedback">
+        Please provide a valid city.
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="validationServer04">State</label>
+      <select class="custom-select is-invalid" id="validationServer04" required>
+        <option selected disabled value="">Choose...</option>
+        <option>...</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a valid state.
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="validationServer05">Zip</label>
+      <input type="text" class="form-control is-invalid" id="validationServer05" required>
+      <div class="invalid-feedback">
+        Please provide a valid zip.
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" required>
+      <label class="form-check-label" for="invalidCheck3">
+        Agree to terms and conditions
+      </label>
+      <div class="invalid-feedback">
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Submit form</button>
+</form>
+ -->
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Dashboard {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mr-4" href="{% url 'blog:dashboard' user_object.id %} "> Home </a>
+      </li>
+      <li class="nav-item">
+
+      </li>
+    </ul>
+    <span class="navbar-text ml-4 mr-4">
+       <nav class="nav nav-pills flex-column flex-sm-row" style="width:auto;">
+          <a class="flex-sm text-sm-center nav-link active mr-4" href="{% url 'blog:my_profile' user_object.id %}">My Profile</a>
+          <a class="flex-sm text-sm-center nav-link active" href="{% url 'blog:make_post' user_object.id %}">Make a post</a>
+        </nav>
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+{% block content %}
+
+<h1 class="mt-4 mb-4 display-2" style="text-align:center"> {{ user_object.username }} </h1>
+<br>
+<hr class="mt-4 bg-dark mb-4 ">
+<div style="text-align: center">
+    <p > You searched for <i><b> '{{ searched_text }}' </b></i></p>
+    <p class="text-primary"><b> {{ matched_post_len }} results found </b></p>
+</div>
+
+{% if matched_post %}
+    <div class="mt-4">
+     <div class="row mt-4">
+                    <div class="col">
+                        <ul class="list-group">
+                            {% for post in matched_post %}
+                            <div class="card mt-4 mb-4 mr-4" style="width:70rem;">
+                                  <div class="card-header text-white bg-light" style="width:22rem;">
+                                      {% if post.post_link.username == user_object.username %}
+                                            <a class="text-dark" href="{% url 'blog:another_profile' post.post_link.id  user_object.id %} "> {{ post.post_link.username }}</a><img class="ml-4" src="{% static 'img/ic-actions-check.png' %}">
+                                        {% else %}
+                                            <a class="text-dark" href="{% url 'blog:another_profile' post.post_link.id user_object.id %} ">{{ post.post_link.username }}</a>
+                                        {% endif %}
+                                  </div>
+                                  <div class="card-body text-dark">
+                                      <div class="float-right">
+                                          <form class="  mb-2" action="" method="POST">
+                                                {% csrf_token %}
+                                                 <input type="hidden" name = "post_user" value="{{ post.post_link.id }}" >
+                                                     {% if post in liked_posts %}
+                                                        <button class="btn btn-primary mr-2" type="submit" name="post_id" value="{{ post.id }}"> <img class="mb-2" src="{% static 'img/like-1439749-1214323.png' %}"> </button> {{post.likes}}
+                                                    {% else %}
+                                                        <button class="btn btn-outline-primary mr-2" type="submit" name="post_id" value="{{ post.id }}"> <img class="mb-2" src="{% static 'img/like-1439749-1214323.png' %}"> </button> {{post.likes}}
+                                                    {% endif %}
+                                          </form>
+                                        <button type="button" class="btn btn-dark mb-4">
+                                            <a class="text-white" href="{% url 'blog:view_post' user_object.id post.post_link.id post.id %}"> View </a>
+                                        </button>
+                                      </div>
+                                    <h5 class="card-title"><strong> <a href="{% url 'blog:view_post' user_object.id post.post_link.id post.id %}" class="text-dark"> {{ post.title }} </a></strong></h5>
+                                    <p class="card-text"> <i class="text-primary">posted:  </i>{{ post.date_created }} </p>
+                                  </div>
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+        </div>
+</div>
+{% else %}
+<div class="row align-items-center justify-content-center mt-4">
+    <img  src="{% static 'img/ic-emoji-sad@4x.png' %}">
+</div>
+{% endif %}
+
+{% endblock %}

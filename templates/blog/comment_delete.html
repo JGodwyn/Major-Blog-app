@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Delete Comment {% endblock title %}
+{% block navbar %}
+  <a class="navbar-brand ml-4" href="/">JG</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link mr-4 ml-4" href="">{{ user_object.username }}'s post <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+            <a class="nav-link mr-4" href="{% url 'blog:dashboard' main_user_object.id %} "> Home </a>
+      </li>
+    </ul>
+    <span class="navbar-text ml-4 mr-4">
+       Post
+    </span>
+    <span class="navbar-text mr-4">
+      <button type="button" class="btn btn-danger">
+       <a class="text-white" href="/"> Log out </a>
+    </button>
+    </span>
+  </div>
+{% endblock navbar %}
+
+
+{% block content %}
+
+<div class="jumbotron mt-4 mb-4 bg-light text-dark">
+  <h1 class="display-3"> {{ exact_title }} </h1>
+  <div class="float-right">
+     <img class="mb-2 mt-2" src="{% static 'img/like-1439749-1214323.png' %}">
+                             {{ exact_likes }}
+  </div>
+     <p class="lead"><b> By: {{ user_object.username }}</b></p>
+    <p class="text-primary"> {{ exact_date }}</p>
+  <hr class="bg-light">
+</div>
+<h6 class="bg-white text-dark" style="width: auto; text-align: center">  {{ exact_post }} </h6>
+<br><br>
+
+<br><br>
+<form action="" method="POST">
+    {% csrf_token %}
+    <p class="mb-3 text-dark"> <b>Select from your comments ({{ comment_list_length }}):</b> <button type="submit" class="btn btn-outline-dark ml-4"> Delete  </button> <br> </p>
+    {% for comment in comment_list %}
+    <input class="mr-3" type="checkbox" name="del_comment" value="{{comment.id}}">
+            {{ comment.comments }}   ---  <b class="text-primary">{{ comment.commenter }}</b> <br>
+    {% endfor %}
+</form>
+<br><br><br><br>
+
+{% endblock content %}
